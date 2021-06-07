@@ -14,21 +14,17 @@ public class ReproducerScheduler {
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss");
     Map<String, String> maps = new HashMap<>();
 
-    //@Scheduled(cron = "{reproducer.scheduler.cron}")
-    @Scheduled(every = "1s")
+    @Scheduled(cron = "{reproducer.scheduler.cron}")
     public void schedule() {
         LocalDateTime now = LocalDateTime.now();
-        String msg = "SCHEDULER TRIGGERED : " + now + " "
-                + Thread.currentThread().getName() + " " + Thread.currentThread().getId();
+        String msg = now + " " + Thread.currentThread().getName() + " " + Thread.currentThread().getId();
 
         String time = dtf.format(now);
         if(!maps.containsKey(time)) {
             maps.put(time, msg);
-            System.out.println("Triggered : " + time);
+            System.out.println("Triggered at : " + now);
         } else {
-            System.out.println(maps.get(time));
-            System.out.println(msg);
+            System.out.println("Already triggered : " + maps.get(time));
         }
-
     }
 }
